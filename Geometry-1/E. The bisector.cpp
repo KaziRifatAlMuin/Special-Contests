@@ -12,17 +12,24 @@ point operator + (point a, point b) { return {a.x + b.x, a.y + b.y}; }
 point operator - (point a, point b) { return {a.x - b.x, a.y - b.y}; }
 double operator | (point a, point b) { return a.x * b.x + a.y * b.y; }
 double operator * (point a, point b) { return a.x * b.y - a.y * b.x; }
+
 point operator * (point a, double m) { return {a.x * m, a.y * m}; }
 point operator / (point a, double m) { return {a.x / m, a.y / m}; }
-double val(point a) { return sqrt(a.x * a.x + a.y * a.y); }
+double val(point a) { return sqrt(a | a); }
+tuple <double, double, double> pointToLine(point a, point b){
+    // Eqn of line passing point (x1,y1) and (x2,y2): (y2-y1)x + (x1-x2)y + y1(x2-x1) - x1(y2-y1) = 0
+    return {( b.y - a.y), (a.x - b.x), (a.y * (b.x - a.x) - a.x * (b.y - a.y)) };
+}
 
-// Eqn of line passing point (x1,y1) and (x2,y2): (y2-y1)x + (x1-x2)y + y1(x2-x1) - x1(y2-y1) = 0
 
 void solve(){
     point x, y, z;
     cin >> x.x >> x.y >> y.x >> y.y >> z.x >> z.y;
-    point a = ((y - x) * val(z - x) / val(y-x)) + (z - x) + x;
-    cout << fixed << setprecision(15) << a.y - x.y << " " << x.x - a.x << " " << x.y * (a.x - x.x) - x.x * (a.y - x.y) << "\n";
+    point p = ((y - x) * val(z - x)) / val(y-x); // vector towards (y-x) with length |z-x|
+    p = p + (z - x); // resultant vector
+    p = p + x; // translating start point at x from (0,0)
+    auto [a, b, c] = pointToLine(x, p);
+    cout << fixed << setprecision(15) << a << " " << b << " " << c << "\n";
 }
 
 int32_t main() {
