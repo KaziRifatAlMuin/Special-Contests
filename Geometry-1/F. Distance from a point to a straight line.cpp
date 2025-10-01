@@ -12,16 +12,22 @@ point operator + (point a, point b) { return {a.x + b.x, a.y + b.y}; }
 point operator - (point a, point b) { return {a.x - b.x, a.y - b.y}; }
 double operator | (point a, point b) { return a.x * b.x + a.y * b.y; }
 double operator * (point a, point b) { return a.x * b.y - a.y * b.x; }
+
 point operator * (point a, double m) { return {a.x * m, a.y * m}; }
 point operator / (point a, double m) { return {a.x / m, a.y / m}; }
-double val(point a) { return sqrt(a.x * a.x + a.y * a.y); }
+double val(point a) { return sqrt(a | a); }
+tuple <double, double, double> pointToLine(point a, point b){ 
+    return {( b.y - a.y), (a.x - b.x), (a.y * (b.x - a.x) - a.x * (b.y - a.y)) };
+}
+double pointLineDistance(point p, double a, double b, double c){
+    return fabs(a * (p.x) + b * (p.y) + c) / (sqrt(a*a + b*b));
+}
 
 void solve(){
     point p;
     double a, b, c;
     cin >> p.x >> p.y >> a >> b >> c;
-    double d = fabs(a * (p.x) + b * (p.y) + c) / (sqrt(a*a + b*b));
-    cout << fixed << setprecision(15) << d << "\n"; 
+    cout << fixed << setprecision(15) << pointLineDistance(p, a, b, c) << "\n"; 
 }
 
 int32_t main() {

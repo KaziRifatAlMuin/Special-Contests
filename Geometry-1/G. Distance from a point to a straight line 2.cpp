@@ -12,18 +12,27 @@ point operator + (point a, point b) { return {a.x + b.x, a.y + b.y}; }
 point operator - (point a, point b) { return {a.x - b.x, a.y - b.y}; }
 double operator | (point a, point b) { return a.x * b.x + a.y * b.y; }
 double operator * (point a, point b) { return a.x * b.y - a.y * b.x; }
+
 point operator * (point a, double m) { return {a.x * m, a.y * m}; }
 point operator / (point a, double m) { return {a.x / m, a.y / m}; }
-double val(point a) { return sqrt(a.x * a.x + a.y * a.y); }
-
-// sintheta = h / |p-a|
-// h = |p-a| sintheta = (p-a)*(b-a) / |b-a|
+double val(point a) { return sqrt(a | a); }
+tuple <double, double, double> pointToLine(point a, point b){ 
+    return {( b.y - a.y), (a.x - b.x), (a.y * (b.x - a.x) - a.x * (b.y - a.y)) };
+}
+double pointLineDistance(point p, double a, double b, double c){
+    return fabs(a * (p.x) + b * (p.y) + c) / (sqrt(a*a + b*b));
+}
+double pointLineDistance(point p, point a, point b){
+    return fabs((p-a) * (b-a)) / val(b-a); // |p-a|sintheta = (p-a)*(b-a)/|b-a|
+}
 
 void solve(){
     point p, a, b;
     cin >> p.x >> p.y >> a.x >> a.y >> b.x >> b.y;
-    double d = fabs((p-a) * (b-a)) / val(b-a);
-    cout << fixed << setprecision(15) << d << "\n"; 
+    // auto [aa, bb, cc] = pointToLine(a,b);
+    // double d = pointLineDistance(p,aa,bb,cc);
+    double d = pointLineDistance(p,a,b);
+    cout << fixed << setprecision(15) << d << "\n";
 }
 
 int32_t main() {

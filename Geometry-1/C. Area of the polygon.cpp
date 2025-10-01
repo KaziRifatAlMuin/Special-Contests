@@ -20,19 +20,19 @@ void solve(){
     double area = 0;
     for(int i = 0; i < n; i++){
         double x, y; cin >> x >> y;
-        p[i] = {x,y};
+        p[i] = {x,y}; // points of polygon
     }
     for(int i = 0; i < n; i++){
-        area += (p[i] * p[(i+1)%n]) / 2.0;
+        area += (p[i] * p[(i+1)%n]) / 2.0; // anticlockwise = +ve area, clockwise = -ve area
     }
-    area = abs(area);
+    area = fabs(area); // absolute value of area
     cout << fixed << setprecision(15) << area <<"\n";
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(0); cin.tie(0);
-    // freopen("area.in", "r", stdin);
-    // freopen("area.out", "w", stdout);
+    freopen("area.in", "r", stdin);
+    freopen("area.out", "w", stdout);
     ll t = 1, st = clock();
     // cin >> t;
     while(t--){
