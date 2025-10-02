@@ -25,3 +25,4 @@ int32_t main() {
     return 0;
 }
 // https://vjudge.net/contest/741635#problem/A
+// CF GYM LINK: https://codeforces.com/gym/100168/submit 
